@@ -1,6 +1,14 @@
 - name: configure mysql server
   hosts: db
   become: yes
+  vars:
+    login_user: root
+    login_host: db.jnpndevops.online
+  vars_prompt:
+    name: login_password
+    prompt: enter login password
+    private: no
+
   tasks:
   - name: installing mysql server
     ansible.builtin.dnf:
@@ -12,4 +20,17 @@
       name: mysqld
       state: started
       enabled: yes
+  
+  - name: check db password is set or not
+    community.mysql.mysql_info:
+      login_user: {{ login_user }}
+      login_password: {{ login_password:}}
+      login_host: {{ login_host }}
+      filter: version
+    register: mysql_info
+    ignore_errors: yes
+  
+  - name: print mysql information
+    ansible.builtin.debug:
+     msg: " {{ mysql_info }}"
 
