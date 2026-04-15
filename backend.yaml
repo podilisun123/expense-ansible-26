@@ -14,7 +14,7 @@
     - nodejs
     - mysql
 
-  - name: create expense expense user 
+  - name: create expense user 
     ansible.builtin.user:
       name: expense
   
