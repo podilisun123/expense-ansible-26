@@ -2,10 +2,9 @@
   hosts: backend
   become: yes
   vars:
+    login_host: db.jnpndevops.online
     login_user: root
     login_password: ExpenseApp@1
-    login_host: db.jnpndevops.online
-
   tasks:
   - name: disable old node nodejs
     ansible.builtin.command: dnf module disable nodejs -y
