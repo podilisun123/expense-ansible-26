@@ -2,6 +2,7 @@
   become: yes
   hosts: backend
   vars:
+    login_user: root
     login_password: ExpenseApp@1
     login_host: db.jnpndevops.online
   tasks:
@@ -14,7 +15,7 @@
   - name: install nodejs
     ansible.builtin.dnf: # only works for Redhat family
       name: "{{ item }}"
-      state: installed
+      state: latest
     loop:
     - nodejs
     - mysql
@@ -58,7 +59,7 @@
 
   - name: import data into mysql
     community.mysql.mysql_db:
-      login_user: root
+      login_user: "{{ login_user }}"
       login_password: "{{ login_password }}"
       login_host: "{{ login_host }}"
       target: /app/schema/backend.sql
